@@ -1,0 +1,23 @@
+# Environnement virtuel
+venv/
+.env/
+
+# Fichiers de compilation Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Fichiers de log
+*.log
+
+# Configurations locales
+*.env
+.idea/
+.vscode/
+
+# Dépendances installées
+*.egg-info/
+dist/
+build/
+
