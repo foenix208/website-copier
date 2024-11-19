@@ -21,8 +21,11 @@ Le programme utilise les bibliothèques suivantes :
 - `beautifulsoup4`
 - `os`
 - `urllib`
+- `lxml`
+
 
 Vous pouvez installer les dépendances avec la commande suivante :
 
 ```bash
 pip install -r requirements.txt
+```
