@@ -1,35 +1,45 @@
 import requests
 import os 
 from bs4 import BeautifulSoup
-import urllib
 import lxml
 
-def write_file(soup: BeautifulSoup, filename: str) -> None:
+def ft_write(soup: BeautifulSoup, filename: str) -> None:
     with open(filename, 'w', encoding='utf-8') as file:
         file.write(soup.prettify())
 
-# Define the headers
-headers = {
-    "Authorization": "Bearer YOUR_ACCESS_TOKEN",
-    "User-Agent": "my-app/0.0.1",
-    "Content-Type": "application/json"
-}
+def ft_requests(url):
 
-url = "https://www.1quaidescompetences.fr/coaching/coaching-en-developpement-personnel-coaching-de-vie-nantes-44/"
-r = requests.get(url,headers=headers)
+    headers = {
+        "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+        "User-Agent": "my-app/0.0.1",
+        "Content-Type": "application/json"
+    }
+    r = requests.get(url,headers=headers)
+    if not r.ok:
+        print("Request failed with status code:", r.status_code) 
+        exit(1)
 
-if not r.ok:
-    print("Request failed with status code:", r.status_code) 
-    exit(1)
+    return BeautifulSoup(r.content,"lxml")
 
-soup = BeautifulSoup(r.content,"lxml")
+def ft_all_link(url = None,soup = None):
+    link = []
+    if url != None:
+        soup = ft_requests(url)
+    a = soup.find_all("a")
 
-path = soup.find('title').text.replace(" ","_")
+    for i in a:
+        link.append(i["href"])
+        #print(i["href"])
+    return link
 
-if  not os.path.exists(path):
-    os.mkdir(path)
-    os.mkdir(path+"/style")
-    os.mkdir(path+"/script")
-    os.mkdir(path+"/resources")
+url = "https://www.1quaidescompetences.fr"
+dommaine ="www.1quaidescompetences.fr"
 
-write_file(soup,path+"/index.html")
+path_name = "Site_copie"
+
+if  not os.path.exists(path_name):
+    os.mkdir(path_name)
+
+soup = ft_requests(url)
+
+ft_write(soup,path_name+"/index.html")
